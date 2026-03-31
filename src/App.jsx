@@ -557,7 +557,7 @@ export default function App() {
           setMode('chat');
           setMessages([{
             id: 0, sender: 'bot',
-            text: '안녕! 나는 일본어 인사 챗봇이야 🌸 배운 인사말을 입력해봐!'
+            text: '안녕! 나는 일본어 인사말 챗봇이야 🌸 배운 인사말을 입력해봐!'
           }]);
         }
       } catch (e) { console.error(e); }
@@ -679,7 +679,7 @@ export default function App() {
                   ? <Edit3 size={18} color="white" />
                   : <MessageSquare size={18} color="white" />}
               </div>
-              {mode === 'edit' ? '챗봇 만들기 🌸' : '일본어 인사 챗봇 🌸'}
+              {mode === 'edit' ? '일본어 인사말 챗봇 만들기 🌸' : '일본어 인사말 챗봇 🌸'}
             </div>
             {mode === 'chat' && !isFromShare && (
               <button className="back-btn" onClick={() => setMode('edit')}>
