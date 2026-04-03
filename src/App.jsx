@@ -685,6 +685,7 @@ export default function App() {
     if (!text) return;
     setMessages(prev => [...prev, { id: Date.now(), sender: 'user', text }]);
     setInputText('');
+    setInputWarning('');
     setIsTyping(true);
 
     const match = qaPairs.find(
@@ -898,28 +899,43 @@ export default function App() {
                 <div ref={messagesEndRef} />
               </div>
 
-              <div className="chat-input-area">
-                <input
-                  type="text"
-                  className="chat-input"
-                  value={inputText}
-                  onChange={e => {
-                    // [조언 수용] 채팅 입력창도 규칙 편집창과 동일하게 15자 이하로 제한
-                    if ([...e.target.value].length <= MAX_INPUT_LEN) {
-                      setInputText(e.target.value);
-                    }
-                  }}
-                  onKeyDown={handleKeyDown}
-                  placeholder="인사말을 입력하세요 (예: いってきます。)"
-                />
-                <button
-                  type="button"
-                  className="send-btn"
-                  disabled={!inputText.trim()}
-                  onClick={handleSend}
-                >
-                  <Send size={18} style={{ transform: 'translateX(-1px)' }} />
-                </button>
+              <div>
+                {inputWarning === 'char_limit' && (
+                  <div style={{
+                    padding: '8px 14px', background: '#FEF3C7',
+                    borderTop: '1.5px solid #F59E0B',
+                    fontSize: 13, color: '#92400E', fontWeight: 700,
+                    display: 'flex', alignItems: 'center', gap: 6
+                  }}>
+                    ⚠️ 입력 문구는 15글자까지만 입력할 수 있어요!
+                  </div>
+                )}
+                <div className="chat-input-area">
+                  <input
+                    type="text"
+                    className="chat-input"
+                    value={inputText}
+                    onChange={e => {
+                      // [조언 수용] 채팅 입력창도 규칙 편집창과 동일하게 15자 이하로 제한
+                      if ([...e.target.value].length <= MAX_INPUT_LEN) {
+                        setInputText(e.target.value);
+                        setInputWarning('');
+                      } else {
+                        setInputWarning('char_limit');
+                      }
+                    }}
+                    onKeyDown={handleKeyDown}
+                    placeholder="인사말을 입력하세요 (예: いってきます。)"
+                  />
+                  <button
+                    type="button"
+                    className="send-btn"
+                    disabled={!inputText.trim()}
+                    onClick={handleSend}
+                  >
+                    <Send size={18} style={{ transform: 'translateX(-1px)' }} />
+                  </button>
+                </div>
               </div>
             </>
           )}
